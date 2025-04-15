@@ -1,0 +1,80 @@
+package parameta.demo.parameta.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import parameta.demo.parameta.dto.ResponseApi;
+import parameta.demo.parameta.dto.TypeDocumentDTO;
+import parameta.demo.parameta.service.TypeDocumentService;
+import parameta.demo.parameta.util.ApiMessages;
+import parameta.demo.parameta.util.LogHelper;
+import parameta.demo.parameta.util.LogMessages;
+
+@RestController
+@RequestMapping("/api/typeDocument")
+public class TypeDocumentController {
+
+	private final Logger logger = LoggerFactory.getLogger(TypeDocumentController.class);
+	
+	private final TypeDocumentService documentService;
+	
+	public TypeDocumentController(TypeDocumentService documentService) {
+		this.documentService = documentService;
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ResponseApi<TypeDocumentDTO>> findTypeDocumentById(@PathVariable Long id) {
+		 logger.info(LogHelper.start(getClass(), "findTypeDocumentById"));
+		 
+		try {
+			Optional<TypeDocumentDTO> document = documentService.findTypeDocumentById(id);
+			if (document.isPresent()) {
+				logger.info(LogHelper.success(getClass(), "findTypeDocumentById", String.format(LogMessages.ENTITY_FOUND, id)));
+				logger.info(LogHelper.end(getClass(), "findTypeDocumentById"));
+				return ResponseEntity.ok(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.RECORD_FOUND, document.get()));
+			} 
+			
+			logger.warn(LogHelper.warn(getClass(), "findTypeDocumentById", String.format(LogMessages.ENTITY_NOT_FOUND, id)));
+			logger.info(LogHelper.end(getClass(), "findTypeDocumentById"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.RECORD_NOT_FOUND, null));
+		
+		} catch (Exception e) {
+			logger.error(LogHelper.error(getClass(), "findTypeDocumentById", e.getMessage()), e);
+			logger.info(LogHelper.end(getClass(), "findTypeDocumentById"));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi(ApiMessages.ERROR, ApiMessages.INTERNAL_SERVER_ERROR, null));
+		}
+	}
+	
+	@GetMapping
+	public ResponseEntity<ResponseApi<List<TypeDocumentDTO>>> findAllTypeDocument() {
+		 logger.info(LogHelper.start(getClass(), "findAllTypeDocument"));
+		 
+		try {
+			List<TypeDocumentDTO> listDocumentDTO = documentService.findAllTypeDocument();
+			if (!listDocumentDTO.isEmpty()) {
+				logger.info(LogHelper.success(getClass(), "findAllTypeDocument", String.format(LogMessages.ENTITY_LIST_SUCCESS, listDocumentDTO.size())));
+				logger.info(LogHelper.end(getClass(), "findAllTypeDocument"));
+				return ResponseEntity.ok(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.LIST_SUCCESS, listDocumentDTO));
+			} 
+			
+			logger.warn(LogHelper.warn(getClass(), "findAllTypeDocument", String.format(LogMessages.ENTITY_LIST_SUCCESS, 0)));
+			logger.info(LogHelper.end(getClass(), "findAllTypeDocument"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.RECORD_NOT_FOUND, null));
+		
+		} catch (Exception e) {
+			logger.error(LogHelper.error(getClass(), "findAllTypeDocument", e.getMessage()), e);
+			logger.info(LogHelper.end(getClass(), "findAllTypeDocument"));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi(ApiMessages.ERROR, ApiMessages.INTERNAL_SERVER_ERROR, null));
+		}
+	}
+		
+}
