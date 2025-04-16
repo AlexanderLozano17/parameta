@@ -29,8 +29,12 @@ public class TypeDocumentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@Column(unique = true)
+	@Column(unique = true, length = 3)
+	@Size(max = 3)
     private String code;    
+	
+	@Column(length = 40)
+	@Size(max = 40)
 	private String document;
 
 }

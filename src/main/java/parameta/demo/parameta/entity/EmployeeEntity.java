@@ -31,7 +31,6 @@ public class EmployeeEntity implements Serializable {
 	private Long id;
 	
 	@OneToOne
-	@MapsId
 	@JoinColumn(name = "person_id")
 	private PersonEntity person;
 	
@@ -40,4 +39,26 @@ public class EmployeeEntity implements Serializable {
 	private RoleEntity role;    
     private Double salary;	
 	private LocalDate dateVinculation;
+	
+	public EmployeeEntity(PersonEntity person, RoleEntity role, Double salary, LocalDate dateVinculation) {
+		this.person = person;
+		this.role = role;
+		this.salary = salary;
+		this.dateVinculation = dateVinculation;		
+	}
+
+	/**
+	 * @param person the person to set
+	 */
+	public void setPerson(PersonEntity person) {
+		this.person = person;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(RoleEntity role) {
+		this.role = role;
+	}
+	
 }

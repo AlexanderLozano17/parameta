@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import parameta.demo.parameta.dto.ResponseApi;
 import parameta.demo.parameta.dto.TypeDocumentDTO;
 import parameta.demo.parameta.service.TypeDocumentService;
@@ -21,6 +26,7 @@ import parameta.demo.parameta.util.LogMessages;
 
 @RestController
 @RequestMapping("/api/typeDocument")
+@Tag(name = "TypeDocument")
 public class TypeDocumentController {
 
 	private final Logger logger = LoggerFactory.getLogger(TypeDocumentController.class);
@@ -31,6 +37,14 @@ public class TypeDocumentController {
 		this.documentService = documentService;
 	}
 
+	@Operation(
+		    summary = "Obtener un tipo de documento por el ID",
+		    responses = {
+		        @ApiResponse(responseCode = "200", description = ApiMessages.RECORD_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "404", description = ApiMessages.RECORD_NOT_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseApi<TypeDocumentDTO>> findTypeDocumentById(@PathVariable Long id) {
 		 logger.info(LogHelper.start(getClass(), "findTypeDocumentById"));
@@ -54,6 +68,14 @@ public class TypeDocumentController {
 		}
 	}
 	
+	@Operation(
+		    summary = "Obtener un listado de tipo de documentos",
+		    responses = {
+		        @ApiResponse(responseCode = "200", description = ApiMessages.RECORD_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "404", description = ApiMessages.RECORD_NOT_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@GetMapping
 	public ResponseEntity<ResponseApi<List<TypeDocumentDTO>>> findAllTypeDocument() {
 		 logger.info(LogHelper.start(getClass(), "findAllTypeDocument"));

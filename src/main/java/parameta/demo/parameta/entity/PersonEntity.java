@@ -2,9 +2,11 @@ package parameta.demo.parameta.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +35,19 @@ public class PersonEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
+	
+	@Column(length = 40)
+	@Size(max = 40)
 	private String names;	
+	
+	@Column(length = 40)
+	@Size(max = 40)
 	private String lastames;
+	
+	@Column(unique = true)
 	private String dni;	
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 	
 	@ManyToOne
@@ -51,4 +64,19 @@ public class PersonEntity implements Serializable {
 		this.dni = dni;
 		this.dateOfBirth = dateOfBirth;
 	}
+
+	/**
+	 * @param typeDocument the typeDocument to set
+	 */
+	public void setTypeDocument(TypeDocumentEntity typeDocument) {
+		this.typeDocument = typeDocument;
+	}
+
+	/**
+	 * @param employee the employee to set
+	 */
+	public void setEmployee(EmployeeEntity employee) {
+		this.employee = employee;
+	}
+
 }

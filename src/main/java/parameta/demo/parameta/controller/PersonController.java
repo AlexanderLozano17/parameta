@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import parameta.demo.parameta.dto.PersonDTO;
+import parameta.demo.parameta.dto.PersonEmployeeDTO;
 import parameta.demo.parameta.dto.ResponseApi;
 import parameta.demo.parameta.service.PersonService;
 import parameta.demo.parameta.util.ApiMessages;
@@ -24,6 +30,7 @@ import parameta.demo.parameta.util.LogMessages;
 
 @RestController
 @RequestMapping("/api/person")
+@Tag(name = "Person")
 public class PersonController {
 
 	private final Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -34,6 +41,14 @@ public class PersonController {
 		this.personService = personService;
 	}
 
+	@Operation(
+		    summary = "Obtener una persona por ID",
+		    responses = {
+		        @ApiResponse(responseCode = "200", description = ApiMessages.RECORD_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "404", description = ApiMessages.RECORD_NOT_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseApi<PersonDTO>> findPesonById(@PathVariable Long id) {
 		 logger.info(LogHelper.start(getClass(), "findPesonById"));
@@ -57,6 +72,14 @@ public class PersonController {
 		}
 	}
 	
+	@Operation(
+		    summary = "Obtener un listado de personas",
+		    responses = {
+		        @ApiResponse(responseCode = "200", description = ApiMessages.RECORD_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "404", description = ApiMessages.RECORD_NOT_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@GetMapping
 	public ResponseEntity<ResponseApi<List<PersonDTO>>> findAllPeople() {
 		 logger.info(LogHelper.start(getClass(), "getAllPerson"));

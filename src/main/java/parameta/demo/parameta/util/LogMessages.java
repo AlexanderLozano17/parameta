@@ -21,6 +21,7 @@ public class LogMessages {
     public static final String ENTITY_NOT_FOUND = "Registro no encontrado con ID %s";
     public static final String ENTITY_LIST_ERROR = "Error al obtener el listado de registros: %s";
     public static final String ENTITY_NOT_CONTENT = "No se han encontrado registros";
+    public static final String OBJECT_NOT_NULL = "El objeto no puede ser nulos";
 
     /** ====================================================
                      LOGS DE AUDITORÍA

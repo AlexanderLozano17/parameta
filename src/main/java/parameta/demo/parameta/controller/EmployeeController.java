@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import parameta.demo.parameta.dto.EmployeeDTO;
 import parameta.demo.parameta.dto.PersonEmployeeDTO;
@@ -24,6 +29,7 @@ import parameta.demo.parameta.util.LogMessages;
 
 @RestController
 @RequestMapping("/api/employee")
+@Tag(name = "Employee")
 public class EmployeeController {
 
 	private final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -34,16 +40,29 @@ public class EmployeeController {
 		this.service = service;
 	}
 	
+	@Operation(
+		    summary = "Crear un empleado",
+		    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+		        required = true,
+		        content = @Content(
+		            schema = @Schema(implementation = PersonEmployeeDTO.class)
+		        )
+		    ),
+		    responses = {
+		        @ApiResponse(responseCode = "201", description = ApiMessages.SAVE_SUCCESS, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@PostMapping("/create")
 	public ResponseEntity<ResponseApi<PersonEmployeeDTO>> createEmployee(@Valid @RequestBody PersonEmployeeDTO personEmployeeDTO) {
 		 logger.info(LogHelper.start(getClass(), "createEmployee"));
-		 
+
 		 try {
-			 PersonEmployeeDTO result = service.createEmployee(personEmployeeDTO);
-			 logger.info(LogHelper.success(getClass(), "createEmployee", String.format(LogMessages.ENTITY_SAVE_SUCCESS, result.getId())));
+			 Optional<PersonEmployeeDTO> result = service.createEmployee(personEmployeeDTO);
+			 logger.info(LogHelper.success(getClass(), "createEmployee", String.format(LogMessages.ENTITY_SAVE_SUCCESS, result.get().getId())));
 			 logger.info(LogHelper.end(getClass(), "createEmployee"));
 
-			 return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi<>(ApiMessages.SUCCESS, ApiMessages.SAVE_SUCCESS, result));
+			 return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseApi<>(ApiMessages.SUCCESS, ApiMessages.SAVE_SUCCESS, result.get()));
 
 		 } catch (Exception e) {
 			 logger.error(LogHelper.error(getClass(), "createEmployee", e.getMessage()), e);
@@ -52,6 +71,14 @@ public class EmployeeController {
 		}
 	}
 	
+	@Operation(
+		    summary = "Obtener el empleado por ID de la persona",
+		    responses = {
+		        @ApiResponse(responseCode = "200", description = ApiMessages.RECORD_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "404", description = ApiMessages.RECORD_NOT_FOUND, content = @Content(schema = @Schema(implementation = ResponseApi.class))),
+		        @ApiResponse(responseCode = "500", description = ApiMessages.INTERNAL_SERVER_ERROR, content = @Content(schema = @Schema(implementation = ResponseApi.class)))
+		    }
+		)
 	@GetMapping("/person/{personId}")
 	public ResponseEntity<ResponseApi<EmployeeDTO>> findEmployee(@PathVariable Long personId) {
 	    logger.info(LogHelper.start(getClass(), "findEmployee"));

@@ -3,6 +3,8 @@ package parameta.demo.parameta.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import parameta.demo.parameta.util.DateUtils;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +27,7 @@ public class PersonEmployeeDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-private Long id;
+	private Long id;
 	
 	@NotBlank(message = "El nombre es obligatorio")
 	@Size(max = 40)
@@ -33,7 +36,7 @@ private Long id;
 	@NotBlank(message = "El apellido es obligatorio")
 	@Size(max = 40)
 	private String lastames;
-	private TypeDocumentDTO typeDocument;
+	private TypeDocumentDTO typeDocumentDTO;
 	
 	@NotBlank(message = "El DNI es obligatorio")
 	@Column(unique = true)
@@ -44,5 +47,27 @@ private Long id;
 	private LocalDate dateOfBirth;
 	
 	@Valid
-	private EmployeeDTO employeeDTO;
+	private EmployeeDTO employeeDTO;	
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private String age;
+
+	public PersonEmployeeDTO(Long id, String names, String lastames, TypeDocumentDTO typeDocumentDTO, String dni,
+			LocalDate dateOfBirth, EmployeeDTO employeeDTO) {
+		super();
+		this.id = id;
+		this.names = names;
+		this.lastames = lastames;
+		this.typeDocumentDTO = typeDocumentDTO;
+		this.dni = dni;
+		this.dateOfBirth = dateOfBirth;
+		this.employeeDTO = employeeDTO;
+		calcularDatosDerivados();
+	}	
+	
+	public void calcularDatosDerivados() {
+		if (dateOfBirth != null) {
+			this.age = DateUtils.calculateAge(dateOfBirth);
+		}
+	}
 }

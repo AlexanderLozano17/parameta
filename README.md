@@ -1,59 +1,76 @@
-# 🚀 Prueba Técnica Developer - Parameta S.A.S
+# 📦 Prueba Técnica Developer - Parameta S.A.S
 
-Este repositorio contiene la implementación de una prueba técnica solicitada por **Parameta S.A.S**, que consiste en desarrollar un servicio REST utilizando **Java 17** y **Spring Boot**, con validaciones de negocio, persistencia en base de datos y comunicación con un servicio SOAP externo.
-
----
-
-## 🧩 Descripción del Proyecto
-
-El proyecto implementa un servicio REST que recibe los atributos de un objeto `Empleado` vía método `GET`, realiza las validaciones necesarias y, en caso exitoso, comunica los datos a un servicio SOAP para su almacenamiento en una base de datos PostgreSQL. Finalmente, retorna un JSON con la información del empleado, incluyendo:
-
-- Edad actual (años, meses y días)
-- Tiempo de vinculación a la compañía (años, meses y días)
+Este proyecto es una implementación de un servicio REST desarrollado en **Java 17** utilizando **Spring Boot**. El objetivo es recibir información de un empleado, validar los datos, consultar un servicio SOAP y almacenar los datos en una base de datos. Finalmente, retorna un JSON con información calculada adicional.
 
 ---
 
-## 🧾 Atributos del Empleado
+## 🧩 Descripción del problema
 
-- `nombres`: `String`
-- `apellidos`: `String`
-- `tipoDocumento`: `String`
-- `numeroDocumento`: `String`
-- `fechaNacimiento`: `Date`
-- `fechaVinculacion`: `Date`
-- `cargo`: `String`
-- `salario`: `Double`
+Se requiere exponer un servicio REST que reciba un objeto **Empleado** con los siguientes atributos:
 
----
+- Nombres (`String`)
+- Apellidos (`String`)
+- Tipo de Documento (`String`)
+- Número de Documento (`String`)
+- Fecha de Nacimiento (`Date`)
+- Fecha de Vinculación a la Compañía (`Date`)
+- Cargo (`String`)
+- Salario (`Double`)
 
-## ✅ Validaciones
+### Requisitos funcionales:
 
-- Formato válido de fechas
-- Campos obligatorios no nulos
-- Validación de mayoría de edad (≥ 18 años)
-
----
-
-## 🛠️ Tecnologías y Herramientas
-
-| Tecnología       | Versión      | Descripción                                    |
-|------------------|--------------|------------------------------------------------|
-| Java             | 17           | Lenguaje principal                             |
-| Spring Boot      | 3.x          | Framework principal de backend                 |
-| Spring JPA       |              | Persistencia de datos                          |
-| Flyway           |              | Migración y versionamiento de base de datos    |
-| PostgreSQL       | 15+          | Motor de base de datos relacional              |
-| Docker           |              | Contenedores                                   |
-| Docker Compose   |              | Orquestación de contenedores                   |
-| SOAP Client      |              | Comunicación con servicio web SOAP externo     |
-| OpenAPI / Swagger|              | Documentación de la API REST                   |
+- Validar que los campos no vengan vacíos y que las fechas estén en formato válido.
+- Validar que el empleado sea **mayor de edad**.
+- Invocar un servicio **SOAP** con la información del empleado.
+- Almacenar los datos en una base de datos **PostgreSQL**.
+- El servicio REST debe responder con un JSON que incluya:
+  - Edad actual del empleado (**años, meses y días**).
+  - Tiempo de vinculación a la empresa (**años, meses y días**).
 
 ---
 
-## 🧪 Ejecución Local
+## ⚙️ Tecnologías utilizadas
 
-1. **Clona el repositorio:**
+- Java 17
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Bean Validation (`@Valid`)
+- Flyway (para versionamiento de la base de datos)
+- Docker & Docker Compose
+- PostgreSQL
+- OpenAPI / Swagger
+- Consumo de servicios SOAP
+- Lombok
+
+---
+
+## 🏗️ Arquitectura y patrones implementados
+
+### 🧱 Patrón por Capas (Layered Architecture)
+Separación clara de responsabilidades:
+
+- **Controller:** Maneja la entrada/salida HTTP.
+- **Service:** Contiene la lógica de negocio.
+- **Repository:** Capa de acceso a datos con JPA.
+- **DTOs:** Se utilizan para desacoplar la representación interna de las entidades.
+
+### 🧰 Abstracción del acceso a datos
+
+- Uso de interfaces `Repository` y `JpaRepository` de Spring Data JPA.
+- Implementación de la lógica adicional en `ServiceImpl` (patrón Service).
+- Separación entre entidades (`Entity`) y objetos de transferencia (`DTO`), fomentando el **principio de responsabilidad única** (SRP).
+
+### 🔄 Conversión entre entidades y DTOs
+
+- Mapeo manual o con ayuda de `ModelMapper` para separar claramente la lógica de negocio de la representación externa.
+  
+---
+
+## 🚀 Cómo ejecutar
+
+### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/nombre-del-repo.git
-cd nombre-del-repo
+git clone https://github.com/tu-usuario/tu-repo.git
+cd tu-repo

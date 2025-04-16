@@ -7,7 +7,7 @@ import parameta.demo.parameta.dto.PersonEmployeeDTO;
 
 public interface EmployeeService {
 
-	PersonEmployeeDTO createEmployee(PersonEmployeeDTO personEmployeeDTO);
+	Optional<PersonEmployeeDTO> createEmployee(PersonEmployeeDTO personEmployeeDTO);
 	
 	Optional<PersonEmployeeDTO> findEmployeedByIdPerson(Long personId);
 }
