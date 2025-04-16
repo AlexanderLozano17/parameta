@@ -15,7 +15,7 @@ import io.swagger.v3.oas.models.servers.Server;
 public class OpenApiConfig {
 	
 	@Value("${spring.application.name}")
-	private  static String appName;
+	private String appName;
 	
 	private final String baseUrl = "http://localhost:8080/";
 		
@@ -40,7 +40,7 @@ public class OpenApiConfig {
 	}
 	
 	@Bean
-	public GroupedOpenApi kafkaGroup() {
+	public GroupedOpenApi group() {
 		return GroupedOpenApi.builder()
 				.group(appName + " API")
 				.pathsToMatch("/api/roles/**",

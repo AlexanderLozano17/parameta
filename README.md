@@ -72,5 +72,29 @@ Separación clara de responsabilidades:
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+https://github.com/AlexanderLozano17/parameta.git
+```
+
+## 📚 Modelo de Datos
+
+Este proyecto incluye un modelo de datos orientado a representar una estructura básica de empleados, personas, roles y tipos de documento.
+
+### 🔗 Relaciones entre Entidades
+
+- **`PersonEntity` — `TypeDocumentEntity`**  
+  Relación de muchos a uno (`@ManyToOne`).  
+  Muchas personas pueden tener el mismo tipo de documento.
+
+- **`PersonEntity` — `EmployeeEntity`**  
+  Relación uno a uno (`@OneToOne`).  
+  Una persona puede estar asociada a un empleado.
+
+- **`EmployeeEntity` — `RoleEntity`**  
+  Relación de muchos a uno (`@ManyToOne`).  
+  Muchos empleados pueden compartir un mismo rol.
+
+- **`RoleEntity` — `EmployeeEntity`**  
+  Relación inversa de la anterior (`@OneToMany`).  
+  Un rol puede estar asociado a múltiples empleados.
+
+---

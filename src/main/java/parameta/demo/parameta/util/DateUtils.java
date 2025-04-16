@@ -42,6 +42,16 @@ public class DateUtils {
     
     /**
      * 
+     * @param birthDate
+     * @return
+     */
+    public static int currentAge(LocalDate birthDate) {
+        if (birthDate == null || birthDate.isAfter(LocalDate.now())) return -1;
+        return Period.between(birthDate, LocalDate.now()).getYears();
+    }
+    
+    /**
+     * 
      * @param object
      */
     public static void printJsonPretty(Object object) {

@@ -2,12 +2,18 @@ package parameta.demo.parameta.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,13 +40,18 @@ public class PersonDTO implements Serializable {
 	@NotBlank(message = "El apellido es obligatorio")
 	@Size(max = 40)
 	private String lastames;
+	
+	@Valid
 	private TypeDocumentDTO typeDocument;
 	
 	@NotBlank(message = "El DNI es obligatorio")
-	@Column(unique = true)
+    @Size(max = 20, message = "El DNI no puede superar los 20 caracteres") // opcional
+    @Column(unique = true)
 	private String dni;
 	
 	@NotNull(message = "La fecha es obligatorio")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Past(message = "La fecha de nacimiento debe ser en el pasado")
 	private LocalDate dateOfBirth;
 	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -55,6 +66,7 @@ public class PersonDTO implements Serializable {
 		this.typeDocument = typeDocument;
 		this.dni = dni;
 		this.dateOfBirth = dateOfBirth;
+		calcularDatosDerivados();
 	}
 	
 	public void calcularDatosDerivados() {

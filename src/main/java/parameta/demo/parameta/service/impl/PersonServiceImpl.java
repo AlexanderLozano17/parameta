@@ -53,19 +53,19 @@ private final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<PersonDTO> findPesonById(Long id) {
-		logger.info(LogHelper.start(getClass(), "findPesonById"));			
+	public Optional<PersonDTO> findPersonById(Long id) {
+		logger.info(LogHelper.start(getClass(), "findPersonById"));			
 		
 		Optional<PersonEntity> person = repository.findById(id);
 		PersonDTO personDTO = convertToPersonDTO(person.get());
 		
 		if (person.isPresent()) {
-			logger.info(LogHelper.success(getClass(), "findPesonById", String.format(LogMessages.ENTITY_FOUND, id)));
+			logger.info(LogHelper.success(getClass(), "findPersonById", String.format(LogMessages.ENTITY_FOUND, id)));
 			
 		} else {
-			logger.warn(LogHelper.warn(getClass(), "findPesonById", String.format(LogMessages.ENTITY_NOT_FOUND, id)));
+			logger.warn(LogHelper.warn(getClass(), "findPersonById", String.format(LogMessages.ENTITY_NOT_FOUND, id)));
 		}
-		logger.info(LogHelper.end(getClass(), "findPesonById"));
+		logger.info(LogHelper.end(getClass(), "findPersonById"));
 		return Optional.of(personDTO);
 	}
 

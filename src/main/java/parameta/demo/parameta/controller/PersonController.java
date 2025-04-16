@@ -50,24 +50,24 @@ public class PersonController {
 		    }
 		)
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseApi<PersonDTO>> findPesonById(@PathVariable Long id) {
-		 logger.info(LogHelper.start(getClass(), "findPesonById"));
+	public ResponseEntity<ResponseApi<PersonDTO>> findPersonById(@PathVariable Long id) {
+		 logger.info(LogHelper.start(getClass(), "findPersonById"));
 		 
 		try {
-			Optional<PersonDTO> person = personService.findPesonById(id);
+			Optional<PersonDTO> person = personService.findPersonById(id);
 			if (person.isPresent()) {
-				logger.info(LogHelper.success(getClass(), "findPesonById", String.format(LogMessages.ENTITY_FOUND, id)));
-				logger.info(LogHelper.end(getClass(), "findPesonById"));
+				logger.info(LogHelper.success(getClass(), "findPersonById", String.format(LogMessages.ENTITY_FOUND, id)));
+				logger.info(LogHelper.end(getClass(), "findPersonById"));
 				return ResponseEntity.ok(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.RECORD_FOUND, person.get()));
 			} 
 			
-			logger.warn(LogHelper.warn(getClass(), "findPesonById", String.format(LogMessages.ENTITY_NOT_FOUND, id)));
-			logger.info(LogHelper.end(getClass(), "findPesonById"));
+			logger.warn(LogHelper.warn(getClass(), "findPersonById", String.format(LogMessages.ENTITY_NOT_FOUND, id)));
+			logger.info(LogHelper.end(getClass(), "findPersonById"));
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseApi(ApiMessages.SUCCESS, ApiMessages.RECORD_NOT_FOUND, null));
 		
 		} catch (Exception e) {
-			logger.error(LogHelper.error(getClass(), "findPesonById", e.getMessage()), e);
-			logger.info(LogHelper.end(getClass(), "findPesonById"));
+			logger.error(LogHelper.error(getClass(), "findPersonById", e.getMessage()), e);
+			logger.info(LogHelper.end(getClass(), "findPersonById"));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseApi(ApiMessages.ERROR, ApiMessages.INTERNAL_SERVER_ERROR, null));
 		}
 	}

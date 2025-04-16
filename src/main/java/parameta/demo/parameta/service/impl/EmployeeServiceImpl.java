@@ -20,6 +20,7 @@ import parameta.demo.parameta.repository.PersonRepository;
 import parameta.demo.parameta.repository.RoleRepository;
 import parameta.demo.parameta.repository.TypeDocumentRepository;
 import parameta.demo.parameta.service.EmployeeService;
+import parameta.demo.parameta.util.DateUtils;
 import parameta.demo.parameta.util.LogHelper;
 import parameta.demo.parameta.util.LogMessages;
 
@@ -32,6 +33,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private final TypeDocumentRepository documentReposiroty;
 	private final RoleRepository rolReposiroty;
 	private final EmployeeRepository employeeRepository;
+	
+	private final int EDAD_MINIMA = 18;
 	
 	public EmployeeServiceImpl(PersonRepository personRepository, TypeDocumentRepository documentReposiroty,
 			RoleRepository rolReposiroty, EmployeeRepository employeeRepository) {
@@ -47,18 +50,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Optional<PersonEmployeeDTO> createEmployee(PersonEmployeeDTO personEmployeeDTO) {
 		logger.info(LogHelper.start(getClass(), "createEmployee"));
 
-	    try {
-	        if (personEmployeeDTO == null) {
-	            logger.error(LogHelper.error(getClass(), "createEmployee", LogMessages.OBJECT_NOT_NULL));
-	            throw new IllegalArgumentException(LogMessages.OBJECT_NOT_NULL);
-	        }
-
+	    try {	        
 	        PersonEmployeeDTO savedDTO = processSavePerson(personEmployeeDTO);
 
-	        logger.info(LogHelper.success(getClass(), "createEmployee", LogMessages.ENTITY_SAVE_SUCCESS));
-	        logger.info(LogHelper.end(getClass(), "createEmployee"));
-
-	        return Optional.of(savedDTO);
+  	        logger.info(LogHelper.success(getClass(), "createEmployee", LogMessages.ENTITY_SAVE_SUCCESS));
+  	        logger.info(LogHelper.end(getClass(), "createEmployee"));
+  	        return Optional.of(savedDTO);
 
 	    } catch (Exception e) {
 	        logger.error(LogHelper.error(getClass(), "createEmployee", String.format(LogMessages.ENTITY_SAVE_ERROR, e.getMessage())), e);

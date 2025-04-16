@@ -2,11 +2,15 @@ package parameta.demo.parameta.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -36,6 +40,8 @@ public class PersonEmployeeDTO implements Serializable {
 	@NotBlank(message = "El apellido es obligatorio")
 	@Size(max = 40)
 	private String lastames;
+	
+	@Valid
 	private TypeDocumentDTO typeDocumentDTO;
 	
 	@NotBlank(message = "El DNI es obligatorio")
@@ -44,6 +50,7 @@ public class PersonEmployeeDTO implements Serializable {
 	
 	@NotNull(message = "La fecha es obligatorio")
 	@Past(message = "La fecha de nacimiento debe ser en el pasado")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 	
 	@Valid
@@ -70,4 +77,11 @@ public class PersonEmployeeDTO implements Serializable {
 			this.age = DateUtils.calculateAge(dateOfBirth);
 		}
 	}
+	
+    @JsonIgnore
+    @AssertTrue(message = "La persona debe tener al menos 18 años")
+    public boolean isValidAge() {
+        if (dateOfBirth == null) return false;
+        return Period.between(dateOfBirth, LocalDate.now()).getYears() >= 18;
+    }
 }

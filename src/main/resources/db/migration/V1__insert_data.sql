@@ -29,24 +29,3 @@ VALUES (4, 'Luisa', 'Martínez', 3, '100000004', '1992-11-10');
 INSERT INTO person (id, names, lastames, type_document_id, dni, date_of_birth)
 VALUES (5, 'Andrés', 'López', 1, '100000005', '1985-06-05');
 
--- INSERTAR EMPLEADO
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (1, 1, 1, '2023-05-01', 3600.0);
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (2, 2, 2, '2022-09-10', 3300.0);
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (3, 3, 3, '2024-01-15', 3100.0);
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (4, 4, 4, '2021-12-20', 4100.0);
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (5, 5, 5, '2020-07-01', 4300.0);
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (6, 1, 2, '2024-02-10', 3400.0); 
-
-INSERT INTO employee (id, person_id, role_id, date_vinculation, salary)
-VALUES (7, 2, 3, '2023-08-01', 3000.0); 
