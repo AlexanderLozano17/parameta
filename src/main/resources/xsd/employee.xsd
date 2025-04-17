@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://localhost:8080/soap/employee"
+           xmlns:tns="http://localhost:8080/soap/employee"
+           elementFormDefault="qualified">
+
+		<!-- Entrada (Request) -->
+		<xs:element name="saveEmployee" type="tns:PersonEmployee"/>
+		
+		<!-- Salida (Response) -->
+		<xs:element name="saveEmployeeResponse" type="tns:EmployeeResponse"/>
+
+    <!-- Tipo: PersonEmployee -->
+    <xs:complexType name="PersonEmployee">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="names" type="xs:string"/>
+            <xs:element name="lastames" type="xs:string"/>
+            <xs:element name="dni" type="xs:string"/>
+            <xs:element name="dateOfBirth" type="xs:date"/>
+            <xs:element name="typeDocument" type="tns:TypeDocument"/>
+            <xs:element name="employee" type="tns:Employee"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tipo: TypeDocument -->
+    <xs:complexType name="TypeDocument">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="document" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tipo: Employee -->
+    <xs:complexType name="Employee">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="salary" type="xs:decimal"/>
+            <xs:element name="dateVinculation" type="xs:date"/>
+            <xs:element name="role" type="tns:Role"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tipo: Role -->
+    <xs:complexType name="Role">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="rol" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tipo: Respuesta -->
+    <xs:complexType name="EmployeeResponse">
+        <xs:sequence>
+            <xs:element name="status" type="xs:string"/>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="data" type="tns:PersonEmployee" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
