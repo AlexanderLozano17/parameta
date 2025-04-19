@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.4</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.soap</groupId>
+	<artifactId>ws-soap</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>ws-soap</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.36</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Jakarta XML Binding (JAXB) -->
+	    <dependency>
+	        <groupId>jakarta.xml.bind</groupId>
+	        <artifactId>jakarta.xml.bind-api</artifactId>
+	        <version>3.0.1</version>
+	    </dependency>
+
+		 <dependency>
+	        <groupId>org.glassfish.jaxb</groupId>
+	        <artifactId>jaxb-runtime</artifactId>
+	        <version>3.0.1</version>
+	    </dependency>
+	    
+	    <dependency>
+		    <groupId>wsdl4j</groupId>
+		    <artifactId>wsdl4j</artifactId>
+		    <version>1.6.3</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!--Se comenta para que nome regenere los pojo-->			
+			<!-- 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.5.0</version>
+				<executions>
+					<execution>
+						<id>xjc</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sources>
+								<source>
+									${project.basedir}/src/main/resources/xsd</source>
+							</sources>
+							<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+							<clearOutputDir>false</clearOutputDir>
+							<packageName>demo.soap.pojos</packageName>
+							<generateJakarta>true</generateJakarta>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>xsd/**</include>
+				</includes>
+			</resource>
+		    <resource>
+		     	<directory>${project.build.directory}/generated-sources/jaxb</directory>
+		    </resource>
+  		</resources>
+	</build>
+</project>

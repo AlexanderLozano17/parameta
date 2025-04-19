@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://localhost:8081/soap/employee"
+    xmlns:tns="http://localhost:8081/soap/employee"
+    elementFormDefault="qualified">
+
+    <!-- Elemento raíz: Request -->
+    <xs:element name="saveEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="personEmployee" type="tns:PersonEmployeePojo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Elemento raíz: Response -->
+    <xs:element name="saveEmployeeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
+                <xs:element name="personEmployee" type="tns:PersonEmployeePojo" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- PersonEmployee DTO -->
+    <xs:complexType name="PersonEmployeePojo">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="names" type="xs:string"/>
+            <xs:element name="lastNames" type="xs:string"/> <!-- corregido nombre -->
+            <xs:element name="typeDocument" type="tns:TypeDocumentPojo"/>
+            <xs:element name="dni" type="xs:string"/>
+            <xs:element name="dateOfBirth" type="xs:date"/>
+            <xs:element name="employee" type="tns:EmployeePojo"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- TypeDocument DTO -->
+    <xs:complexType name="TypeDocumentPojo">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="document" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Employee DTO -->
+    <xs:complexType name="EmployeePojo">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="role" type="tns:RolePojo"/>
+            <xs:element name="salary" type="xs:double"/>
+            <xs:element name="dateVinculation" type="xs:date"/>
+            <xs:element name="timeVinculation" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Role DTO -->
+    <xs:complexType name="RolePojo">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="rol" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

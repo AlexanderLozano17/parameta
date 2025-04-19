@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.2 
+Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2025.04.18 a las 02:25:25 PM COT 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://localhost:8081/soap/employee">
+    <schemaBindings map="false">
+      <package name="demo.soap.pojos"/>
+    </schemaBindings>
+    <bindings scd="tns:saveEmployeeRequest">
+      <class ref="demo.soap.pojos.SaveEmployeeRequest"/>
+    </bindings>
+    <bindings scd="~tns:PersonEmployeeSoapDTO">
+      <class ref="demo.soap.pojos.PersonEmployeeSoapDTO"/>
+    </bindings>
+    <bindings scd="tns:saveEmployeeResponse">
+      <class ref="demo.soap.pojos.SaveEmployeeResponse"/>
+    </bindings>
+    <bindings scd="~tns:TypeDocumentSoapDTO">
+      <class ref="demo.soap.pojos.TypeDocumentSoapDTO"/>
+    </bindings>
+    <bindings scd="~tns:EmployeeSoapDTO">
+      <class ref="demo.soap.pojos.EmployeeSoapDTO"/>
+    </bindings>
+    <bindings scd="~tns:RoleSoapDTO">
+      <class ref="demo.soap.pojos.RoleSoapDTO"/>
+    </bindings>
+  </bindings>
+</bindings>
+
