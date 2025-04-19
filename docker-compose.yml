@@ -22,8 +22,7 @@ services:
       dockerfile: DockerfIle # Especifica el archivo Dockerfile a utilizar
     container_name: restApiEmployee
     depends_on:
-      - postgres 
-      - mysql    
+      - postgres   
     env_file: # Carga variables de entorno desde un archivo .env
       - .env
     ports:
@@ -42,7 +41,6 @@ services:
     container_name: soapEmployee
     depends_on:
       - postgres   
-      - mysql  
     env_file: # Carga variables de entorno desde un archivo .env
       - .env
     ports:
