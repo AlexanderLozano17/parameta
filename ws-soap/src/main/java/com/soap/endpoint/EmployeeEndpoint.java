@@ -11,7 +11,7 @@ import com.soap.service.CreateEmployeeService;
 
 import demo.soap.pojos.SaveEmployeeRequest;
 import demo.soap.pojos.SaveEmployeeResponse;
-import demo.soap.util.FunctionUtils;
+import demo.soap.util.Constants;
 import demo.soap.util.LogHelper;
 
 
@@ -19,7 +19,6 @@ import demo.soap.util.LogHelper;
 public class EmployeeEndpoint {
 		
 	private final Logger logger = LoggerFactory.getLogger(EmployeeEndpoint.class);
-
 
 	private static final String NAMESPACE_URI = "http://localhost:8081/soap/employee";
 	

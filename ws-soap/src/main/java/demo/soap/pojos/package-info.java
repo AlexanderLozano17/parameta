@@ -5,5 +5,7 @@
 // Generado el: 2025.04.18 a las 05:28:45 PM COT 
 //
 
-@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://localhost:8081/soap/employee", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@jakarta.xml.bind.annotation.XmlSchema(namespace = Constants.NAMESPACE_URI, elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package demo.soap.pojos;
+
+import demo.soap.util.Constants;
