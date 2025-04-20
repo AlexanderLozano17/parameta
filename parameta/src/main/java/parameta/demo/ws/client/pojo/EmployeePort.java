@@ -15,7 +15,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "EmployeePort", targetNamespace = Constants.NAMESPACE_URI)
+@WebService(name = "EmployeePort", targetNamespace = "http://localhost:8081/soap/employee")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
     ObjectFactory.class
@@ -30,9 +30,9 @@ public interface EmployeePort {
      *     returns parameta.demo.ws.client.pojo.SaveEmployeeResponse
      */
     @WebMethod
-    @WebResult(name = "saveEmployeeResponse", targetNamespace = Constants.NAMESPACE_URI, partName = "saveEmployeeResponse")
+    @WebResult(name = "saveEmployeeResponse", targetNamespace = "http://localhost:8081/soap/employee", partName = "saveEmployeeResponse")
     public SaveEmployeeResponse saveEmployee(
-        @WebParam(name = "saveEmployeeRequest", targetNamespace = Constants.NAMESPACE_URI, partName = "saveEmployeeRequest")
+        @WebParam(name = "saveEmployeeRequest", targetNamespace = "http://localhost:8081/soap/employee", partName = "saveEmployeeRequest")
         SaveEmployeeRequest saveEmployeeRequest);
 
 }
