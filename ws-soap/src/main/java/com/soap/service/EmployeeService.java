@@ -8,7 +8,7 @@ import demo.soap.pojos.PersonEmployeePojo;
 
 public interface EmployeeService {
 
-    public Optional<EmployeedDTO>  addEmployee(PersonEmployeePojo employee);
+    public Optional<EmployeedDTO>  saveEmployee(PersonEmployeePojo employee);
 
-	public Optional<EmployeedDTO> findEmployeeByIdPerson(long id);
+	public Optional<EmployeedDTO> findEmployeeByIdperson(Long personID);
 }

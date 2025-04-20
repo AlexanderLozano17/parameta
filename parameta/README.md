@@ -27,7 +27,6 @@ Se requiere exponer un servicio REST que reciba un objeto **Empleado** con los s
   - Edad actual del empleado (**años, meses y días**).
   - Tiempo de vinculación a la empresa (**años, meses y días**).
 
----
 
 ## ⚙️ Tecnologías utilizadas
 
@@ -36,44 +35,61 @@ Se requiere exponer un servicio REST que reciba un objeto **Empleado** con los s
 - Spring Web
 - Spring Data JPA
 - Bean Validation (`@Valid`)
-- Flyway (para versionamiento de la base de datos)
 - Docker & Docker Compose
 - PostgreSQL
 - OpenAPI / Swagger
 - Consumo de servicios SOAP
 - Lombok
 
----
+# Explicación de la solución
+
+Este proyecto contiene dos microservicios que interactúan a través de un servicio SOAP:
+
+1. **ws-soap - Exposición del servicio SOAP**: Este microservicio expone un servicio SOAP.
+2. **parameta - Consumo del servicio SOAP**: Este microservicio consume el servicio SOAP expuesto por el primer ws-soap.
+
+## Estructura del Proyecto
+
+### Microservicio ws-soap: Servicio SOAP
+
+Este microservicio expone un servicio SOAP que proporciona funcionalidad relacionada con el registro de empleados. Los detalles del servicio están definidos en el archivo WSDL y el servicio está implementado utilizando Spring Boot y Spring Web Services.
+
+- **Paquete:** `com.soap`
+- **Puntos clave:**
+  - Exposición del servicio SOAP a través de un endpoint.
+  - Validación de solicitudes y manejo de excepciones.
+  - Persistencia de datos a través de JPA y base de datos.
+
+### Microservicio 2 parameta: Cliente SOAP
+
+Este microservicio consume el servicio SOAP expuesto por el Microservicio ws-soap. Se comunica con el microservicio que expone el servicio SOAP utilizando un cliente SOAP generado a partir del WSDL.
+
+- **Paquete:** `parameta.demo.parameta`
+- **Puntos clave:**
+  - Generación del cliente SOAP a partir del archivo WSDL.
+  - Llamada al servicio SOAP utilizando el cliente generado.
+  - Manejo de respuestas y errores.
+
 
 ## 🏗️ Arquitectura y patrones implementados
 
 ### 🧱 Patrón por Capas (Layered Architecture)
 Separación clara de responsabilidades:
 
-- **Controller:** Maneja la entrada/salida HTTP.
-- **Service:** Contiene la lógica de negocio.
-- **Repository:** Capa de acceso a datos con JPA.
-- **DTOs:** Se utilizan para desacoplar la representación interna de las entidades.
+El proyecto sigue una arquitectura por capas, promoviendo la separación de responsabilidades y el mantenimiento del código. A continuación, se describen los componentes principales:
 
-### 🧰 Abstracción del acceso a datos
+- **Controller:** Maneja las solicitudes y respuestas HTTP. Es la capa de entrada al sistema, delegando la lógica de negocio a los servicios.
 
-- Uso de interfaces `Repository` y `JpaRepository` de Spring Data JPA.
-- Implementación de la lógica adicional en `ServiceImpl` (patrón Service).
-- Separación entre entidades (`Entity`) y objetos de transferencia (`DTO`), fomentando el **principio de responsabilidad única** (SRP).
+- **Service:** Define la interfaz de los servicios. Representa la abstracción de las operaciones del negocio.
 
-### 🔄 Conversión entre entidades y DTOs
+- **ServiceImpl:** Implementación concreta de los servicios. Contiene la lógica de negocio y coordina las operaciones entre los diferentes componentes.
 
-- Mapeo manual o con ayuda de `ModelMapper` para separar claramente la lógica de negocio de la representación externa.
-  
----
+- **Repository:** Capa encargada del acceso a datos. Utiliza Spring Data JPA para facilitar la comunicación con la base de datos.
 
-## 🚀 Cómo ejecutar
+- **Entities:** Representan el modelo de datos de la aplicación. Estas clases están mapeadas a las tablas de la base de datos utilizando anotaciones JPA.
 
-### 1. Clonar el repositorio
+- **DTOs (Data Transfer Objects):** Objetos de transferencia de datos. Permiten encapsular y transportar datos entre capas, desacoplando la representación interna de las entidades del modelo de dominio.
 
-```bash
-https://github.com/AlexanderLozano17/parameta.git
-```
 
 ## 📚 Modelo de Datos
 
@@ -96,5 +112,42 @@ Este proyecto incluye un modelo de datos orientado a representar una estructura 
 - **`RoleEntity` — `EmployeeEntity`**  
   Relación inversa de la anterior (`@OneToMany`).  
   Un rol puede estar asociado a múltiples empleados.
+  
 
----
+## 🚀 Cómo ejecutar
+
+## Ejecución con Docker Compose
+
+Para ejecutar el proyecto utilizando Docker Compose, sigue estos pasos:
+
+1. **Clona el repositorio**:
+   Si aún no has clonado el repositorio, ejecuta el siguiente comando:
+
+```bash
+https://github.com/AlexanderLozano17/parameta.git
+```
+
+2. **Verifica la configuración de Docker y Docker Compose: **:
+   Asegúrate de tener Docker y Docker Compose instalados en tu máquina. Puedes verificar si están 	 instalados ejecutando los siguientes comandos::
+
+```bash
+docker --version
+docker-compose --version
+```
+
+3. **Levanta los servicios con Docker Compose: **:
+   Asegúrate de tener Docker y Docker Compose instalados en tu máquina. Puedes verificar si están 	 instalados ejecutando los siguientes comandos::
+
+```bash
+docker-compose up --build
+```
+
+## Datos Iniciales
+
+Dentro del microservicio `parameta`, se encuentra el archivo:
+
+- `src/main/resources/db/migration/V1__data.insert.sql`
+
+Este archivo contiene datos de prueba iniciales que pueden ser utilizados para pobar la base de datos de forma manual.
+
+> ⚠️ Si deseas ejecutar este script, debes aplicarlo directamente

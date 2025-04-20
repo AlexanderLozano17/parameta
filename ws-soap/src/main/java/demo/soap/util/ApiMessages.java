@@ -12,8 +12,10 @@ public final class ApiMessages {
     /** ====================================================
 		    			API MESSAGE SUCCESS
 		==================================================== */
-    public static final String SUCCESS = "success";
-    public static final String ERROR = "error";
+    public static final String SUCCESS = "✅ success";
+    public static final String WARNING = "⚠️  success ⚠️ ";
+    public static final String ERROR = "❌  error";
+    
     
     /** ====================================================
                       API MESSAGE SUCCESS

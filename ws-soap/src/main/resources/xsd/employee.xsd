@@ -35,6 +35,7 @@
             <xs:element name="dni" type="xs:string"/>
             <xs:element name="dateOfBirth" type="xs:date"/>
             <xs:element name="employee" type="tns:EmployeePojo"/>
+            <xs:element name="age" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

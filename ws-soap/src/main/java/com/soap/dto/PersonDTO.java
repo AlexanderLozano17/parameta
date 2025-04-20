@@ -3,12 +3,12 @@ package com.soap.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import lombok.AllArgsConstructor;
+import demo.soap.util.FunctionUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -21,4 +21,24 @@ public class PersonDTO implements Serializable {
     private String lastNames;
     private TypeDocumentDTO typeDocument;
     private LocalDate dateOfBirth;
+    private String age;
+    
+	public PersonDTO(Long id, String dni, String names, String lastNames, TypeDocumentDTO typeDocument,
+			LocalDate dateOfBirth) {
+		super();
+		this.id = id;
+		this.dni = dni;
+		this.names = names;
+		this.lastNames = lastNames;
+		this.typeDocument = typeDocument;
+		this.dateOfBirth = dateOfBirth;
+		calcularDatosDerivados();
+	}
+    
+	
+	public void calcularDatosDerivados() {
+		if (dateOfBirth != null) {
+			this.age = FunctionUtils.calculateAge(dateOfBirth);
+		}
+	}	
 }

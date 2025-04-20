@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:emp="http://localhost:8081/soap/employee">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <emp:saveEmployeeRequest>
+         <emp:personEmployee>
+            <emp:names>Jhon</emp:names>
+            <emp:lastNames>Espinosa</emp:lastNames>
+            <emp:typeDocument>
+               <emp:id>1</emp:id>
+               <emp:code>CC</emp:code>
+               <emp:document>Cédula de Ciudadanía</emp:document>
+            </emp:typeDocument>
+            <emp:dni>100000003</emp:dni>
+            <emp:dateOfBirth>1995-03-24</emp:dateOfBirth>
+            <emp:age/>
+            <emp:employee>
+               <emp:role>
+                  <emp:id>1</emp:id>
+                  <emp:rol>Desarrollador</emp:rol>
+               </emp:role>
+               <emp:salary>35000.0</emp:salary>
+               <emp:dateVinculation>2024-03-26</emp:dateVinculation>
+               <emp:timeVinculation/>
+            </emp:employee>
+         </emp:personEmployee>
+      </emp:saveEmployeeRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

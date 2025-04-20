@@ -34,6 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="dni" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="dateOfBirth" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
  *         &lt;element name="employee" type="{http://localhost:8081/soap/employee}EmployeePojo"/&gt;
+ *         &lt;element name="age" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -50,7 +51,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "typeDocument",
     "dni",
     "dateOfBirth",
-    "employee"
+    "employee",
+    "age"
 })
 public class PersonEmployeePojo {
 
@@ -68,6 +70,8 @@ public class PersonEmployeePojo {
     protected XMLGregorianCalendar dateOfBirth;
     @XmlElement(required = true)
     protected EmployeePojo employee;
+    @XmlElement(required = true)
+    protected String age;
 
     /**
      * Obtiene el valor de la propiedad id.
@@ -229,4 +233,17 @@ public class PersonEmployeePojo {
         this.employee = value;
     }
 
+	/**
+	 * @return the age
+	 */
+	public String getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(String age) {
+		this.age = age;
+	}
 }

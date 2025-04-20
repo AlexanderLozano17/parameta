@@ -3,7 +3,7 @@ services:
   # Contenedor POSTGRES
   postgres:
     image: postgres:14.4
-    container_name: postgresParameta
+    container_name: postgrest
     ports:
       - "5432:5432"
     environment:
@@ -15,30 +15,11 @@ services:
     networks:
       - parameta_network
 
-#contendor de la aplicacion
-  app:
-    build: #  Define como se construye la imagen del contenedor.
-      context: ./parameta # Usa el directorio actual como contexto de construccion.
-      dockerfile: DockerfIle # Especifica el archivo Dockerfile a utilizar
-    container_name: restApiEmployee
-    depends_on:
-      - postgres   
-    env_file: # Carga variables de entorno desde un archivo .env
-      - .env
-    ports:
-      - 8080:8080
-    environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    networks:
-      - parameta_network
-      
-  appsoap:
+  producer-soap:
     build: 
       context: ./ws-soap
-      dockerfile: DockerfIle 
-    container_name: soapEmployee
+      dockerfile: Dockerfile 
+    container_name: producer-soap
     depends_on:
       - postgres   
     env_file: # Carga variables de entorno desde un archivo .env
@@ -52,6 +33,26 @@ services:
     networks:
       - parameta_network
 
+#contendor de la aplicacion
+  comsumer-soap:
+    build: #  Define como se construye la imagen del contenedor.
+      context: ./parameta # Usa el directorio actual como contexto de construccion.
+      dockerfile: Dockerfile # Especifica el archivo Dockerfile a utilizar
+    container_name: consumer-soap
+    depends_on:
+      - postgres   
+      - producer-soap
+    env_file: # Carga variables de entorno desde un archivo .env
+      - .env
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    networks:
+      - parameta_network
+      
 # Red personalizada para la comunicacion entre contenedores
 networks:
   parameta_network:

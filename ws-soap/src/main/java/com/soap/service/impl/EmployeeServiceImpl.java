@@ -8,12 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.soap.dto.EmployeedDTO;
 import com.soap.dto.RoleDTO;
+import com.soap.dto.TypeDocumentDTO;
+import com.soap.entity.EmployeeEntity;
+import com.soap.entity.PersonEntity;
+import com.soap.entity.RoleEntity;
+import com.soap.entity.TypeDocumentEntity;
 import com.soap.repository.EmployeeRepository;
 import com.soap.service.EmployeeService;
 
 import demo.soap.pojos.PersonEmployeePojo;
 import demo.soap.util.FunctionUtils;
 import demo.soap.util.LogHelper;
+import demo.soap.util.LogMessages;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -27,31 +33,62 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
-	public Optional<EmployeedDTO>  addEmployee(PersonEmployeePojo employee) {
+	public Optional<EmployeedDTO>  saveEmployee(PersonEmployeePojo pojo) {
 		logger.info(LogHelper.start(getClass(), "addEmployee"));
-		
-		EmployeedDTO employeedDTO = new EmployeedDTO();
-		employeedDTO.setPersonId(employee.getId());
-		employeedDTO.setDatevinculation(FunctionUtils.toLocalDate(employee.getEmployee().getDateVinculation()));
-		employeedDTO.setSalary(employee.getEmployee().getSalary());
-		
-		RoleDTO rol = new RoleDTO(employee.getEmployee().getRole().getId(), employee.getEmployee().getRole().getRol());		
-		employeedDTO.setRole(rol);
-
-		Optional<EmployeedDTO> employeeOpt = repository.addEmployee(employeedDTO);
+				
+		EmployeeEntity employeeEntity = createEmployeeEntity(pojo);		
+		employeeEntity = repository.save(employeeEntity);
 		
 		logger.info(LogHelper.end(getClass(), "addEmployee"));
-		return employeeOpt;
+		return Optional.of(createEmployeeDTO(employeeEntity));
 	}
 
 	@Override
-	public Optional<EmployeedDTO> findEmployeeByIdPerson(long id) {
+	public Optional<EmployeedDTO> findEmployeeByIdperson(Long personID) {
 		logger.info(LogHelper.start(getClass(), "findEmployeeByIdPerson"));
 		
-		Optional<EmployeedDTO> employee = repository.findEmployeeByIdPerson(id);
+		Optional<EmployeedDTO> employee = repository.findEmployeeByIdperson(personID);
+		if (employee.isEmpty()) {	
+			
+			logger.info(LogHelper.end(getClass(), "findEmployeeByIdPerson"));
+			return Optional.empty();			
+		}
 		
+		logger.info(LogHelper.success(getClass(), "findEmployeeByIdPerson", ""));
 		logger.info(LogHelper.end(getClass(), "findEmployeeByIdPerson"));
-		return employee;
+		return employee;		
 	}
 
+	/**
+	 * 
+	 * @param pojo
+	 * @return
+	 */
+	public EmployeeEntity createEmployeeEntity(PersonEmployeePojo pojo) {
+		 
+		PersonEntity personEntity = new PersonEntity();
+		personEntity.setId(pojo.getId());
+
+		RoleEntity roleEntity = new RoleEntity();
+		roleEntity.setId(pojo.getEmployee().getRole().getId());
+		
+		return new EmployeeEntity(personEntity, 
+				roleEntity, 
+				pojo.getEmployee().getSalary(),  
+				FunctionUtils.toLocalDate(pojo.getEmployee().getDateVinculation()));
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public EmployeedDTO createEmployeeDTO(EmployeeEntity entity) {				
+		return new EmployeedDTO(entity.getId(), 
+				entity.getPerson().getId(), 
+				entity.getDateVinculation(),
+				entity.getSalary(), 				
+				new RoleDTO(entity.getRole().getId(), 
+						entity.getRole().getRol()));
+	}
 }

@@ -14,18 +14,15 @@ import com.soap.service.PersonService;
 
 import demo.soap.pojos.PersonEmployeePojo;
 import demo.soap.pojos.SaveEmployeeResponse;
+import demo.soap.util.ApiMessages;
+import demo.soap.util.FunctionUtils;
 import demo.soap.util.LogHelper;
 import demo.soap.util.LogMessages;
 import jakarta.transaction.Transactional;
 
 @Service
 public class CreateEmployeeServiceImpl implements CreateEmployeeService {
-	
-	// 1. verificar si la persona se encuentra registrada de lo contrario no realiza nada
-	// 2. si la persona esta registrada, verificar si ya esta como empleado,
-	// 3. si esta como empleado, no se realiza nada
-	// 4. si no esta como empleado, se realiza nada
-	
+		
 	private final Logger logger = LoggerFactory.getLogger(CreateEmployeeServiceImpl.class); 
 	
 	private final PersonService personService;
@@ -39,26 +36,78 @@ public class CreateEmployeeServiceImpl implements CreateEmployeeService {
 	@Transactional
 	@Override
 	public Optional<SaveEmployeeResponse> createEmployee(PersonEmployeePojo pojo){
-		logger.info(LogHelper.start(getClass(), "createEmployee"));
-		
-		
-		Optional<PersonDTO> person = personService.findPersonByDni(pojo.getDni());
-		if (person.isEmpty()) {
-			logger.info(LogHelper.warn(getClass(), "createEmployee", String.format(LogMessages.NOT_EXIST_PERSON, pojo.getDni())));
-			return Optional.empty();
+	    logger.info(LogHelper.start(getClass(), "createEmployee"));
+	    
+	    try {	    	
+		    String message = "";
+		    
+		    // 1. Verificar si la persona existe
+		    Optional<PersonDTO> optionalPerson = personService.findPersonByDni(pojo.getDni());
+		    if (optionalPerson.isEmpty()) {
+	   	
+		    	message = String.format(LogMessages.PERSON_NOT_REGISTER, pojo.getDni());
+		        logger.info(LogHelper.warn(getClass(), "createEmployee", message));
+		        logger.info(LogHelper.end(getClass(), "createEmployee"));
+		        return Optional.of(response(ApiMessages.WARNING, LogMessages.PERSON_NOT_REGISTER, null));
+		    }
+
+		    PersonDTO person = optionalPerson.get();
+
+		    // 2. Verificar si ya es empleado
+		    Optional<EmployeedDTO> optionalEmployee = employeeService.findEmployeeByIdperson(person.getId());
+		    if (optionalEmployee.isPresent()) {
+		    	
+		        EmployeedDTO existingEmployee = optionalEmployee.get();	 
+		        message = String.format(LogMessages.EMPLOYEE_RESGISTER, pojo.getDni(), existingEmployee.getDatevinculation());
+		        logger.info(LogHelper.warn(getClass(), "createEmployee", message));	     
+		        logger.info(LogHelper.end(getClass(), "createEmployee"));
+		        return Optional.of(response(ApiMessages.WARNING, message, null));
+		    }
+
+		    // 3. Registrar nuevo empleado
+		    pojo.setId(person.getId());
+		    Optional<EmployeedDTO> savedEmployee = employeeService.saveEmployee(pojo);
+		    
+		    if (savedEmployee.isEmpty()) {
+		        logger.error(LogHelper.error(getClass(), "createEmployee", LogMessages.ENTITY_SAVE_ERROR));
+		        return Optional.of(response(ApiMessages.ERROR, LogMessages.ENTITY_SAVE_ERROR, null));
+		    }
+		    
+	    	pojo.getEmployee().setId(savedEmployee.get().getId());
+	        message = String.format(LogMessages.ENTITY_SAVE_SUCCESS, savedEmployee.get().getId());
+	        logger.info(LogHelper.success(getClass(), "createEmployee", message));
+	        logger.info(LogHelper.end(getClass(), "createEmployee"));
+	        return Optional.of(response(ApiMessages.SUCCESS, message, pojo));
+		    	    	
+	    } catch (Exception e) {
+	    	logger.error(LogHelper.error(getClass(), "createEmployee", e.getMessage()), e);
+	    	logger.info(LogHelper.end(getClass(), "createEmployee"));
+			return Optional.of(response(ApiMessages.ERROR, LogMessages.ENTITY_SAVE_ERROR, null));
 		}
-				
-		Optional<EmployeedDTO> employeed = employeeService.findEmployeeByIdPerson(pojo.getId());
-		if (employeed.isPresent()) {
-			logger.info(LogHelper.warn(getClass(), "createEmployee", String.format(LogMessages.EMPLOYEE_RESGISTER, pojo.getDni(), employeed.get().getDatevinculation())));
-			return Optional.empty();
-		}
-		
-		Optional<EmployeedDTO> saveEmpoyee = employeeService.addEmployee(pojo);
+	}
 	
-		
-		logger.info(LogHelper.end(getClass(), "createEmployee"));
-		return Optional.empty();
+	/**
+	 * 
+	 * @param accion
+	 * @param message
+	 * @param pojo
+	 * @return
+	 */
+	private SaveEmployeeResponse response(String accion, String message, PersonEmployeePojo pojo) {
+		SaveEmployeeResponse response = new SaveEmployeeResponse();		
+		response.setStatus(accion);
+        response.setMessage(message);        
+        
+        if (pojo != null) {
+        	// calcula la edad y tiempo de vinculación
+            pojo.setAge(FunctionUtils.calculateAge(FunctionUtils.toLocalDate(pojo.getDateOfBirth())));
+            pojo.getEmployee().setTimeVinculation((FunctionUtils.calculateVinculationTime(FunctionUtils.toLocalDate(pojo.getEmployee().getDateVinculation()))));        
+            
+        }
+        
+        response.setPersonEmployee(pojo);
+               
+        return response;
 	}
 	
 }
