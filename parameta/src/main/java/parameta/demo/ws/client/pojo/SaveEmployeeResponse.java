@@ -20,7 +20,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="status" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="personEmployee" type="{http://localhost:8081/soap/employee}PersonEmployeePojo" minOccurs="0"/&gt;
+ *         &lt;element name="personEmployee" type="{http://producer-soap:8081/soap/employee}PersonEmployeePojo" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;

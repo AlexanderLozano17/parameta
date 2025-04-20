@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:emp="http://localhost:8081/soap/employee">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:emp="http://producer-soap:8081/soap/employee">
    <soapenv:Header/>
    <soapenv:Body>
       <emp:saveEmployeeRequest>

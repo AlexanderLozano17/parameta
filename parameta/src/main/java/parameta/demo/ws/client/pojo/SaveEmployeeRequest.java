@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="personEmployee" type="{http://localhost:8081/soap/employee}PersonEmployeePojo"/&gt;
+ *         &lt;element name="personEmployee" type="{http://producer-soap:8081/soap/employee}PersonEmployeePojo"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;

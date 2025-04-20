@@ -1,6 +1,5 @@
 package com.soap.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();
         wsdl.setPortTypeName("EmployeePort"); // Nombre lógico del servicio
         wsdl.setLocationUri("/ws");           // Ruta donde se expone el servicio
-        wsdl.setTargetNamespace("http://localhost:8081/soap/employee"); // Namespace del XML (ajustado)
+        wsdl.setTargetNamespace(Constants.NAMESPACE_URI); // Namespace del XML (ajustado)
         wsdl.setSchema(employeeSchema);       // Esquema XSD para generar el WSDL
         return wsdl;
     }

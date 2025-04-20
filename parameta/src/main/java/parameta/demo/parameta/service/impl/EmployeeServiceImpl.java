@@ -54,9 +54,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 			// Construye la request y envia la petición
 			SaveEmployeeRequest request = convertToSaveEmployeeRequest(personEmployeeDTO);
 			
-	        response = port.saveEmployee(request);	 
-	        return Optional.of(response);
+	        response = port.saveEmployee(request);	
 	        
+	        if (response == null) {
+	        	logger.error(LogHelper.error(getClass(), "createEmployee", "no se ha logrado conectar al SERVICIO SOAP"));
+	        } else {
+	        	return Optional.of(response);
+	        }
+	   
 		} catch (Exception e) {
 			logger.error(LogHelper.error(getClass(), "createEmployee", e.getMessage()), e);
 			response.setStatus(ApiMessages.ERROR);

@@ -1,4 +1,4 @@
-package demo.soap.util;
+package parameta.demo.parameta.util;
 
 public class Constants {
 	

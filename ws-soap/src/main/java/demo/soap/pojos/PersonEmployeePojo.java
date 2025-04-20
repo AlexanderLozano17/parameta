@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.2 
 // Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2025.04.18 a las 05:28:45 PM COT 
+// Generado el: 2025.04.20 a las 01:19:35 AM COT 
 //
 
 
@@ -30,10 +30,10 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *         &lt;element name="names" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="lastNames" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="typeDocument" type="{http://localhost:8081/soap/employee}TypeDocumentPojo"/&gt;
+ *         &lt;element name="typeDocument" type="{http://producer-soap:8081/soap/employee}TypeDocumentPojo"/&gt;
  *         &lt;element name="dni" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="dateOfBirth" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
- *         &lt;element name="employee" type="{http://localhost:8081/soap/employee}EmployeePojo"/&gt;
+ *         &lt;element name="employee" type="{http://producer-soap:8081/soap/employee}EmployeePojo"/&gt;
  *         &lt;element name="age" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -233,17 +233,28 @@ public class PersonEmployeePojo {
         this.employee = value;
     }
 
-	/**
-	 * @return the age
-	 */
-	public String getAge() {
-		return age;
-	}
+    /**
+     * Obtiene el valor de la propiedad age.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAge() {
+        return age;
+    }
 
-	/**
-	 * @param age the age to set
-	 */
-	public void setAge(String age) {
-		this.age = age;
-	}
+    /**
+     * Define el valor de la propiedad age.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAge(String value) {
+        this.age = value;
+    }
+
 }

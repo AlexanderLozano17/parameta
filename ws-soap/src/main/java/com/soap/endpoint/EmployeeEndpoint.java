@@ -20,15 +20,13 @@ public class EmployeeEndpoint {
 		
 	private final Logger logger = LoggerFactory.getLogger(EmployeeEndpoint.class);
 
-	private static final String NAMESPACE_URI = "http://localhost:8081/soap/employee";
-	
 	private final CreateEmployeeService employeService;
 	
 	public EmployeeEndpoint(CreateEmployeeService employeService) {
 		this.employeService = employeService;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "saveEmployeeRequest")
+	@PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "saveEmployeeRequest")
 	@ResponsePayload
 	public SaveEmployeeResponse saveEmployee(@RequestPayload SaveEmployeeRequest request) {
 		logger.info(LogHelper.start(getClass(), "saveEmployeeRequest"));

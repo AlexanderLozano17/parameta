@@ -33,7 +33,7 @@ services:
     networks:
       - parameta_network
 
-#contendor de la aplicacion
+  #contendor de la aplicacion
   comsumer-soap:
     build: #  Define como se construye la imagen del contenedor.
       context: ./parameta # Usa el directorio actual como contexto de construccion.

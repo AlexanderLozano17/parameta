@@ -19,18 +19,20 @@ import jakarta.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "EmployeePortService", targetNamespace = "http://localhost:8081/soap/employee", wsdlLocation = "http://localhost:8081/ws/employee.wsdl")
-public class EmployeePortService extends Service {
+@WebServiceClient(name = "EmployeePortService", targetNamespace = "http://producer-soap:8081/soap/employee", wsdlLocation = "http://localhost:8081/ws/employee.wsdl")
+public class EmployeePortService
+    extends Service
+{
 
     private final static URL EMPLOYEEPORTSERVICE_WSDL_LOCATION;
     private final static WebServiceException EMPLOYEEPORTSERVICE_EXCEPTION;
-    private final static QName EMPLOYEEPORTSERVICE_QNAME = new QName("http://localhost:8081/soap/employee", "EmployeePortService");
+    private final static QName EMPLOYEEPORTSERVICE_QNAME = new QName("http://producer-soap:8081/soap/employee", "EmployeePortService");
 
     static {
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8081/ws/employee.wsdl");
+            url = new URL("http://producer-soap:8081/soap/employel");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
@@ -69,7 +71,7 @@ public class EmployeePortService extends Service {
      */
     @WebEndpoint(name = "EmployeePortSoap11")
     public EmployeePort getEmployeePortSoap11() {
-        return super.getPort(new QName("http://localhost:8081/soap/employee", "EmployeePortSoap11"), EmployeePort.class);
+        return super.getPort(new QName("http://producer-soap:8081/soap/employee", "EmployeePortSoap11"), EmployeePort.class);
     }
 
     /**
@@ -81,7 +83,7 @@ public class EmployeePortService extends Service {
      */
     @WebEndpoint(name = "EmployeePortSoap11")
     public EmployeePort getEmployeePortSoap11(WebServiceFeature... features) {
-        return super.getPort(new QName("http://localhost:8081/soap/employee", "EmployeePortSoap11"), EmployeePort.class, features);
+        return super.getPort(new QName("http://producer-soap:8081/soap/employee", "EmployeePortSoap11"), EmployeePort.class, features);
     }
 
     private static URL __getWsdlLocation() {

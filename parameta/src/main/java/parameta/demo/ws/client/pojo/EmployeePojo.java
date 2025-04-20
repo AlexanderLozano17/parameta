@@ -21,7 +21,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
- *         &lt;element name="role" type="{http://localhost:8081/soap/employee}RolePojo"/&gt;
+ *         &lt;element name="role" type="{http://producer-soap:8081/soap/employee}RolePojo"/&gt;
  *         &lt;element name="salary" type="{http://www.w3.org/2001/XMLSchema}double"/&gt;
  *         &lt;element name="dateVinculation" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
  *         &lt;element name="timeVinculation" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
